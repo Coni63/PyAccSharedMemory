@@ -977,7 +977,7 @@ def penalty_workarround(graphic_map: accSM) -> ACC_PENALTY_TYPE:
     try:
         return ACC_PENALTY_TYPE(graphic_map.unpack_value("i"))
 
-    except(ValueError):
+    except (ValueError):
         return ACC_PENALTY_TYPE.UnknownValue
 
 
@@ -994,6 +994,12 @@ class accSharedMemory():
 
         self.physics_old = None
         self.last_physicsID = 0
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
 
     def read_shared_memory(self) -> Optional[ACC_map]:
 
